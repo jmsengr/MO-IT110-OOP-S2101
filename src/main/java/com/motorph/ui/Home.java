@@ -1,7 +1,8 @@
-package GUI;
+package com.motorph.ui;
 
-import employeeData.EmployeeRepository;
-import employeeData.EmployeeManager;
+import com.motorph.data.EmployeeRepository;
+import com.motorph.model.Employee;
+import com.motorph.service.EmployeeManager;
 
 import javax.swing.*;
 import java.awt.*;

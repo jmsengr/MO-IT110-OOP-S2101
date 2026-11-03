@@ -1,6 +1,7 @@
-package employeeData;
+package com.motorph.service;
 
-import GUI.Employee;
+import com.motorph.data.EmployeeRepository;
+import com.motorph.model.Employee;
 
 import java.io.IOException;
 import java.util.ArrayList;

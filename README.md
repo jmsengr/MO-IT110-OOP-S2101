@@ -1,13 +1,35 @@
 # MotorPh Employee App
 
-The repository is one Java 17 Swing application. `MotorPhApp/src` and
-`With Update/src` are compiled together by the root Maven project; launch from
-the repository root rather than opening either folder as a separate project.
+MotorPh is a Java 17 Swing application built as one Maven project. All source
+code, UI assets, and seed data live in the standard `src/main` tree; there are
+no independently launched subprojects.
+
+## Project structure
+
+```text
+src/
+  main/
+    java/com/motorph/
+      app/       Application entry points
+      data/      CSV persistence
+      model/     Employee domain model
+      service/   Employee operations and authentication
+      ui/        Shared screens
+      ui/admin/  HR screens
+      ui/employee/ Employee screens
+    resources/
+      data/      Employee seed CSV files
+      motorph-logo.png
+```
+
+All six existing project commits remain in Git history: the original project,
+the 19-field employee model, the employee service, login/dashboard integration,
+HR CRUD integration, and GUI smoke-test documentation.
 
 ## Build and run
 
 ```powershell
-mvn package
+mvn clean package
 java -jar target\motorph-employee-app-1.0.0.jar
 ```
 
@@ -17,10 +39,10 @@ open their profile dashboard. HR can manage records from **Manage Records**.
 
 ## Employee data
 
-The first run initializes `%USERPROFILE%\.motorph\employees.csv`. The existing
-40-row `MotorPhApp` dataset is retained, and records from `With Update` are
-merged by employee ID. Employee management, sign-in, and dashboards all use
-this same file. The two source CSVs are left unchanged.
+The first run initializes `%USERPROFILE%\.motorph\employees.csv` by merging
+both bundled seed CSV files by employee ID. Duplicate IDs in the supplemental
+dataset are ignored, retaining the primary record. Employee management,
+sign-in, and dashboards all use the same writable data file.
 
 Set `motorph.data.file` to use another writable CSV location:
 
@@ -49,19 +71,19 @@ building, perform the following manual GUI checks:
    that the displayed personal, work, government ID, and salary fields match
    that employee's CSV record. Salary values are displayed from the record;
    this application does not calculate payroll.
-4. **Legacy HR screens:** in the admin dashboard, create an employee, search
-   for that employee by ID, confirm the profile displays the saved fields, then
-   delete the employee and refresh the admin table.
-5. **Manage Records screens:** open **Manage Records**, add an employee, view
-   and edit the record, save and confirm the list reflects the change, then
-   delete the record and refresh the list.
+4. **HR screens:** in the admin dashboard, create an employee, search
+   for that employee by ID, confirm the profile displays the saved fields, and
+   verify the table refreshes after edits and deletes.
+5. **Manage Records:** open **Manage Records**, add an employee, view and edit
+   the record, save and confirm the list reflects the change, then delete the
+   record and refresh the list.
 6. **Sorted selection:** sort the employee table, select a row, and verify
    view/edit or delete affects the selected employee rather than a different
    row.
 
-These checks exercise both HR record-management paths, the existing CRUD
-behavior, profile refresh, and selection in a sorted table. They are smoke
-checks, not exhaustive validation of every input or CSV error condition.
+These checks exercise employee CRUD, profile refresh, and selection in a sorted
+table. They are smoke checks, not exhaustive validation of every input or CSV
+error condition.
 
 ### Use an isolated test data file
 
@@ -73,6 +95,6 @@ separate writable CSV path:
 java -Dmotorph.data.file="C:\temp\motorph-smoke-test\employees.csv" -jar target\motorph-employee-app-1.0.0.jar
 ```
 
-When that file does not exist, the application initializes it from its
-available employee seed data. Perform destructive checks only against this
-isolated test copy. The source CSV files are not the runtime persistence file.
+When that file does not exist, the application initializes it from the bundled
+employee seed data. Perform destructive checks only against this isolated test
+copy. The seed CSV files are not the runtime persistence file.

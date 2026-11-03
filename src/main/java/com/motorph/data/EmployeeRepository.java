@@ -1,4 +1,4 @@
-package employeeData;
+package com.motorph.data;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -148,14 +148,8 @@ public final class EmployeeRepository {
             }
 
             Map<String, String[]> employees = new LinkedHashMap<>();
-            InputStream seed = EmployeeRepository.class.getResourceAsStream("/data/EmployeeDetails.csv");
-            if (seed != null) {
-                readRows(seed, employees);
-            }
-
-            Path workingDirectory = Path.of(System.getProperty("user.dir"));
-            addSeedFile(workingDirectory.resolve(Path.of("MotorPhApp", "src", "EmployeeDetails.csv")), employees);
-            addSeedFile(workingDirectory.resolve(Path.of("With Update", "src", "Employee Details.csv")), employees);
+            loadSeedResource("/data/employees.csv", employees);
+            loadSeedResource("/data/employees-update.csv", employees);
             if (employees.isEmpty()) {
                 throw new IOException("No employee data was found to initialize " + dataFile + ".");
             }
@@ -165,12 +159,10 @@ public final class EmployeeRepository {
         }
     }
 
-    private static void addSeedFile(Path seedFile, Map<String, String[]> employees) throws IOException {
-        if (!Files.isRegularFile(seedFile)) {
-            return;
-        }
-        try (BufferedReader reader = Files.newBufferedReader(seedFile, StandardCharsets.UTF_8)) {
-            readRows(reader, employees);
+    private static void loadSeedResource(String resourceName, Map<String, String[]> employees) throws IOException {
+        InputStream seed = EmployeeRepository.class.getResourceAsStream(resourceName);
+        if (seed != null) {
+            readRows(seed, employees);
         }
     }
 

@@ -1,4 +1,4 @@
-package employeeDashboard;
+package com.motorph.ui.employee;
 
 import java.awt.EventQueue;
 
@@ -18,8 +18,9 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 
-import GUI.Employee;
-import employeeData.EmployeeManager;
+import com.motorph.model.Employee;
+import com.motorph.service.EmployeeManager;
+import com.motorph.ui.Login;
 
 public class EmployeeDashboard {
 
@@ -77,7 +78,7 @@ public class EmployeeDashboard {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		GUI.Login.main(args);
+		Login.main(args);
 	}
 	
 	
@@ -114,7 +115,7 @@ public class EmployeeDashboard {
 		frmEmployeeDashboard.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("");
-		java.net.URL logo = EmployeeDashboard.class.getResource("/asfasfsaf-removebg-preview.png");
+		java.net.URL logo = EmployeeDashboard.class.getResource("/motorph-logo.png");
 		if (logo != null) {
 			lblNewLabel.setIcon(new ImageIcon(logo));
 		}
@@ -132,7 +133,7 @@ public class EmployeeDashboard {
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to sign out?", "Sign Out", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
 					frmEmployeeDashboard.dispose();
-					GUI.Login.main(null);
+					Login.main(null);
 			  }
 			}
 		});

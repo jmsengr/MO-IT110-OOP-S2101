@@ -1,6 +1,7 @@
-package GUI;
+package com.motorph.ui;
 
-import employeeData.EmployeeManager;
+import com.motorph.model.Employee;
+import com.motorph.service.EmployeeManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

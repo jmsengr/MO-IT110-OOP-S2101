@@ -1,9 +1,11 @@
+package com.motorph.app;
+
 public final class EmployeeApp {
 
     private EmployeeApp() {
     }
 
     public static void main(String[] args) {
-        GUI.Login.main(args);
+        Launcher.main(args);
     }
 }

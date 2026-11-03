@@ -1,4 +1,4 @@
-package adminDashboard;
+package com.motorph.ui.admin;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -7,9 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import CreateAccount.CreateAccount;
-import GUI.Employee;
-import employeeData.EmployeeManager;
+import com.motorph.model.Employee;
+import com.motorph.service.EmployeeManager;
+import com.motorph.ui.EmployeeProfile;
+import com.motorph.ui.EmployeeRecords;
+import com.motorph.ui.Login;
 
 import java.awt.Color;
 import javax.swing.JScrollPane;
@@ -37,7 +39,7 @@ public class AdminDashboard {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		GUI.Login.main(args);
+		Login.main(args);
 	}
 
 	/**
@@ -154,7 +156,7 @@ public class AdminDashboard {
 			public void actionPerformed(ActionEvent e) {
 				if (JOptionPane.showConfirmDialog(null, "Are you sure you want to sign out?", "Sign Out", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
 					frmAdminDashboard.dispose();
-					GUI.Login.main(null);
+					Login.main(null);
 				}
 			}
 		});
@@ -180,7 +182,7 @@ public class AdminDashboard {
 	                Employee employeeDetails = searchEmployeeID(empID);
 
 	                if (employeeDetails != null) {
-	                    searchResultsFrame resultsFrame = new searchResultsFrame(employeeDetails);
+	                    SearchResultsFrame resultsFrame = new SearchResultsFrame(employeeDetails);
 	                    resultsFrame.addWindowListener(new java.awt.event.WindowAdapter() {
 	                    	@Override
 	                    	public void windowClosed(java.awt.event.WindowEvent event) {
@@ -198,7 +200,7 @@ public class AdminDashboard {
 	        frmAdminDashboard.getContentPane().add(btnSearch);
 	        
 	        JLabel lblNewLabel_1 = new JLabel("New label");
-	        java.net.URL logo = AdminDashboard.class.getResource("/asfasfsaf-removebg-preview.png");
+	        java.net.URL logo = AdminDashboard.class.getResource("/motorph-logo.png");
 	        if (logo != null) {
 	        	lblNewLabel_1.setIcon(new ImageIcon(logo));
 	        }
@@ -260,7 +262,7 @@ public class AdminDashboard {
 	        JButton btnManageRecords = new JButton("Manage Records");
 	        btnManageRecords.setBounds(250, 303, 150, 23);
 	        btnManageRecords.addActionListener(e -> {
-	        	GUI.EmployeeRecords records = new GUI.EmployeeRecords();
+			EmployeeRecords records = new EmployeeRecords();
 	        	records.addWindowListener(new java.awt.event.WindowAdapter() {
 	        		@Override
 	        		public void windowClosed(java.awt.event.WindowEvent event) {

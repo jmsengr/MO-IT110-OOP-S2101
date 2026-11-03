@@ -1,4 +1,4 @@
-package CreateAccount;
+package com.motorph.ui.admin;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -17,8 +17,9 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import GUI.Employee;
-import employeeData.EmployeeManager;
+import com.motorph.model.Employee;
+import com.motorph.service.EmployeeManager;
+import com.motorph.ui.Login;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
@@ -69,7 +70,7 @@ public class CreateAccount extends JDialog {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		GUI.Login.main(args);
+		Login.main(args);
 	}
 
 	/**

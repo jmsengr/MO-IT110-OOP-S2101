@@ -1,17 +1,19 @@
-package adminDashboard;
+package com.motorph.ui.admin;
 
-import GUI.Employee;
-import employeeData.EmployeeRepository;
+import com.motorph.data.EmployeeRepository;
+import com.motorph.model.Employee;
+import com.motorph.ui.EmployeeProfile;
+import com.motorph.ui.Login;
 
-public class searchResultsFrame extends GUI.EmployeeProfile {
+public class SearchResultsFrame extends EmployeeProfile {
 
     private static final long serialVersionUID = 1L;
 
-    public searchResultsFrame(Employee employee) {
+    public SearchResultsFrame(Employee employee) {
         super(employee.getEmployeeId(), null);
     }
 
-    public searchResultsFrame(String[] employeeDetails) {
+    public SearchResultsFrame(String[] employeeDetails) {
         super(employeeId(employeeDetails), null);
     }
 
@@ -23,6 +25,6 @@ public class searchResultsFrame extends GUI.EmployeeProfile {
     }
 
     public static void main(String[] args) {
-        GUI.Login.main(args);
+        Login.main(args);
     }
 }

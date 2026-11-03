@@ -1,4 +1,4 @@
-package GUI;
+package com.motorph.model;
 
 public class Employee {
 
