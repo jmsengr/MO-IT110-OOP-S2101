@@ -2,50 +2,54 @@ package GUI;
 
 public class Employee {
 
-    private String employeeID;
-    private String lastName;
-    private String firstName;
-    private String birthday;
-    private String address;
-    private String phone;
-    private String sss;
-    private String philhealth;
-    private String tin;
-    private String pagibig;
-    private String status;
-    private String position;
-    private String supervisor;
-    private double salary;
-    private double riceSubsidy;
-    private double phoneAllowance;
-    private double clothingAllowance;
-    private double grossRate;
-    private double hourlyRate;
+    private final String employeeId;
+    private final String lastName;
+    private final String firstName;
+    private final String birthday;
+    private final String address;
+    private final String phoneNumber;
+    private final String sssNumber;
+    private final String philhealthNumber;
+    private final String tin;
+    private final String pagibigNumber;
+    private final String status;
+    private final String position;
+    private final String supervisor;
+    private final String basicSalary;
+    private final String riceSubsidy;
+    private final String phoneAllowance;
+    private final String clothingAllowance;
+    private final String grossSemiMonthlyRate;
+    private final String hourlyRate;
 
-    public Employee(String employeeID, String lastName, String firstName, String birthday, String address, String phone, String sss, String philhealth, String tin, String pagibig, String status, String position, String supervisor, double salary, double riceSubsidy, double phoneAllowance, double clothingAllowance, double grossRate, double hourlyRate) {
-        this.employeeID = employeeID;
+    public Employee(String employeeId, String lastName, String firstName, String birthday, String address,
+                    String phoneNumber, String sssNumber, String philhealthNumber, String tin,
+                    String pagibigNumber, String status, String position, String supervisor,
+                    String basicSalary, String riceSubsidy, String phoneAllowance, String clothingAllowance,
+                    String grossSemiMonthlyRate, String hourlyRate) {
+        this.employeeId = employeeId;
         this.lastName = lastName;
         this.firstName = firstName;
         this.birthday = birthday;
         this.address = address;
-        this.phone = phone;
-        this.sss = sss;
-        this.philhealth = philhealth;
+        this.phoneNumber = phoneNumber;
+        this.sssNumber = sssNumber;
+        this.philhealthNumber = philhealthNumber;
         this.tin = tin;
-        this.pagibig = pagibig;
+        this.pagibigNumber = pagibigNumber;
         this.status = status;
         this.position = position;
         this.supervisor = supervisor;
-        this.salary = salary;
+        this.basicSalary = basicSalary;
         this.riceSubsidy = riceSubsidy;
         this.phoneAllowance = phoneAllowance;
         this.clothingAllowance = clothingAllowance;
-        this.grossRate = grossRate;
+        this.grossSemiMonthlyRate = grossSemiMonthlyRate;
         this.hourlyRate = hourlyRate;
     }
 
-    public String getEmployeeID() {
-        return employeeID;
+    public String getEmployeeId() {
+        return employeeId;
     }
 
     public String getLastName() {
@@ -64,24 +68,24 @@ public class Employee {
         return address;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public String getSss() {
-        return sss;
+    public String getSssNumber() {
+        return sssNumber;
     }
 
-    public String getPhilhealth() {
-        return philhealth;
+    public String getPhilhealthNumber() {
+        return philhealthNumber;
     }
 
     public String getTin() {
         return tin;
     }
 
-    public String getPagibig() {
-        return pagibig;
+    public String getPagibigNumber() {
+        return pagibigNumber;
     }
 
     public String getStatus() {
@@ -96,27 +100,27 @@ public class Employee {
         return supervisor;
     }
 
-    public double getSalary() {
-        return salary;
+    public String getBasicSalary() {
+        return basicSalary;
     }
 
-    public double getRiceSubsidy() {
+    public String getRiceSubsidy() {
         return riceSubsidy;
     }
 
-    public double getPhoneAllowance() {
+    public String getPhoneAllowance() {
         return phoneAllowance;
     }
 
-    public double getClothingAllowance() {
+    public String getClothingAllowance() {
         return clothingAllowance;
     }
 
-    public double getGrossRate() {
-        return grossRate;
+    public String getGrossSemiMonthlyRate() {
+        return grossSemiMonthlyRate;
     }
 
-    public double getHourlyRate() {
+    public String getHourlyRate() {
         return hourlyRate;
     }
 }
