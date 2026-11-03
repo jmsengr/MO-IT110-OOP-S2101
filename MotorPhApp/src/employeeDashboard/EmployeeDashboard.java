@@ -18,10 +18,12 @@ import java.io.IOException;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 
-import employeeData.EmployeeRepository;
+import GUI.Employee;
+import employeeData.EmployeeManager;
 
 public class EmployeeDashboard {
 
+	private final EmployeeManager employeeManager = new EmployeeManager();
 	private JFrame frmEmployeeDashboard;
     private JLayeredPane layeredPane;
     private JPanel panelPersonal;
@@ -90,6 +92,12 @@ public class EmployeeDashboard {
 	public EmployeeDashboard(String employeeId) {
 		initialize();
 		setEmployeeDetails(employeeId);
+		frmEmployeeDashboard.setVisible(true);
+	}
+
+	public EmployeeDashboard(Employee employee) {
+		initialize();
+		setEmployeeDetails(employee);
 		frmEmployeeDashboard.setVisible(true);
 	}
 
@@ -502,32 +510,36 @@ public class EmployeeDashboard {
 }
 	private void setEmployeeDetails (String EmpID) {
 		try {
-			String[] employee = EmployeeRepository.getInstance().findById(EmpID)
+			Employee employee = employeeManager.findById(EmpID)
 					.orElseThrow(() -> new IOException("Employee ID " + EmpID + " was not found."));
-			txtEmpID.setText(employee[0]);
-			txtLastName.setText(employee[1]);
-			txtFirstName.setText(employee[2]);
-			txtBirthday.setText(employee[3]);
-			txtAddress.setText(employee[4]);
-			txtPhone.setText(employee[5]);
-			txtSSS.setText(employee[6]);
-			txtPhilHealth.setText(employee[7]);
-			txtTIN.setText(employee[8]);
-			txtPagibig.setText(employee[9]);
-			txtStatus.setText(employee[10]);
-			txtPosition.setText(employee[11]);
-			txtSupervisor.setText(employee[12]);
-			txtSalary.setText(employee[13]);
-			txtRice.setText(employee[14]);
-			txtPhoneAllow.setText(employee[15]);
-			txtClothing.setText(employee[16]);
-			txtSemiRate.setText(employee[17]);
-			txtHourlyRate.setText(employee[18]);
+			setEmployeeDetails(employee);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(frmEmployeeDashboard,
 					"Employee profile could not be loaded:\n" + e.getMessage(),
 					"Application error", JOptionPane.ERROR_MESSAGE);
 			frmEmployeeDashboard.dispose();
 		}
+	}
+
+	private void setEmployeeDetails(Employee employee) {
+		txtEmpID.setText(employee.getEmployeeId());
+		txtLastName.setText(employee.getLastName());
+		txtFirstName.setText(employee.getFirstName());
+		txtBirthday.setText(employee.getBirthday());
+		txtAddress.setText(employee.getAddress());
+		txtPhone.setText(employee.getPhoneNumber());
+		txtSSS.setText(employee.getSssNumber());
+		txtPhilHealth.setText(employee.getPhilhealthNumber());
+		txtTIN.setText(employee.getTin());
+		txtPagibig.setText(employee.getPagibigNumber());
+		txtStatus.setText(employee.getStatus());
+		txtPosition.setText(employee.getPosition());
+		txtSupervisor.setText(employee.getSupervisor());
+		txtSalary.setText(employee.getBasicSalary());
+		txtRice.setText(employee.getRiceSubsidy());
+		txtPhoneAllow.setText(employee.getPhoneAllowance());
+		txtClothing.setText(employee.getClothingAllowance());
+		txtSemiRate.setText(employee.getGrossSemiMonthlyRate());
+		txtHourlyRate.setText(employee.getHourlyRate());
 	}
 }

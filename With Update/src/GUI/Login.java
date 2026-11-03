@@ -1,19 +1,19 @@
 package GUI;
 
-import employeeData.EmployeeRepository;
+import employeeData.EmployeeManager;
 import employeeDashboard.EmployeeDashboard;
 import adminDashboard.AdminDashboard;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.Optional;
 
 public class Login extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
+    private final EmployeeManager employeeManager = new EmployeeManager();
     private final JTextField employeeIdField = new JTextField();
     private final JPasswordField birthdayField = new JPasswordField();
 
@@ -46,20 +46,18 @@ public class Login extends JFrame {
         String birthday = new String(birthdayField.getPassword()).trim();
 
         try {
-            Optional<String[]> employee = EmployeeRepository.getInstance().findById(employeeId);
-            if (employee.isEmpty() || !employee.get()[3].trim().equals(birthday)) {
+            Optional<Employee> employee = employeeManager.authenticate(employeeId, birthday);
+            if (employee.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Employee ID or birthday is incorrect.",
                         "Sign-in failed", JOptionPane.ERROR_MESSAGE);
                 birthdayField.setText("");
                 return;
             }
 
-            String position = employee.get()[11].trim().toLowerCase(Locale.ROOT);
-            if (position.equals("hr manager") || position.equals("hr team leader")
-                    || position.equals("hr rank and file")) {
+            if (employeeManager.isHrEmployee(employee.get())) {
                 new AdminDashboard();
             } else {
-                new EmployeeDashboard(employeeId);
+                new EmployeeDashboard(employee.get());
             }
             dispose();
         } catch (IOException e) {
