@@ -1,10 +1,15 @@
 package adminDashboard;
 
+import GUI.Employee;
 import employeeData.EmployeeRepository;
 
 public class searchResultsFrame extends GUI.EmployeeProfile {
 
     private static final long serialVersionUID = 1L;
+
+    public searchResultsFrame(Employee employee) {
+        super(employee.getEmployeeId(), null);
+    }
 
     public searchResultsFrame(String[] employeeDetails) {
         super(employeeId(employeeDetails), null);

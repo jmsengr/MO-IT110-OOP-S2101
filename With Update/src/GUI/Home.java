@@ -1,6 +1,7 @@
 package GUI;
 
 import employeeData.EmployeeRepository;
+import employeeData.EmployeeManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class Home extends JFrame {
             "Position", "Immediate Supervisor", "Basic Salary", "Rice Subsidy",
             "Phone Allowance", "Clothing Allowance", "Gross Semi-monthly Rate", "Hourly Rate"
     };
+    private final EmployeeManager employeeManager = new EmployeeManager();
     private final JTextField[] fields = new JTextField[EmployeeRepository.FIELD_COUNT];
     private final EmployeeRecords parent;
 
@@ -51,41 +53,31 @@ public class Home extends JFrame {
 
     private void assignNextEmployeeId() {
         try {
-            int nextId = EmployeeRepository.getInstance().findAll().stream()
-                    .mapToInt(employee -> {
-                        try {
-                            return Integer.parseInt(employee[0].trim());
-                        } catch (NumberFormatException e) {
-                            return 0;
-                        }
-                    })
-                    .max()
-                    .orElse(0) + 1;
-            fields[0].setText(Integer.toString(nextId));
+            fields[0].setText(Integer.toString(employeeManager.getNextEmployeeId()));
         } catch (IOException e) {
             showError("Employee records could not be loaded:\n" + e.getMessage());
         }
     }
 
     private void saveEmployee() {
-        String[] employee = new String[fields.length];
+        String[] values = new String[fields.length];
         for (int i = 0; i < fields.length; i++) {
-            employee[i] = fields[i].getText().trim();
-            if (employee[i].isEmpty()) {
+            values[i] = fields[i].getText().trim();
+            if (values[i].isEmpty()) {
                 JOptionPane.showMessageDialog(this, FIELD_LABELS[i] + " is required.",
                         "Invalid employee details", JOptionPane.WARNING_MESSAGE);
                 fields[i].requestFocusInWindow();
                 return;
             }
         }
-        if (!employee[3].matches("(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\d{4}")) {
+        if (!values[3].matches("(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\d{4}")) {
             JOptionPane.showMessageDialog(this, "Birthday must use MM/DD/YYYY format.",
                     "Invalid employee details", JOptionPane.WARNING_MESSAGE);
             fields[3].requestFocusInWindow();
             return;
         }
-        for (int i = 13; i < employee.length; i++) {
-            if (!employee[i].matches("\\d+(\\.\\d+)?")) {
+        for (int i = 13; i < values.length; i++) {
+            if (!values[i].matches("\\d+(\\.\\d+)?")) {
                 JOptionPane.showMessageDialog(this, FIELD_LABELS[i] + " must be a non-negative number.",
                         "Invalid employee details", JOptionPane.WARNING_MESSAGE);
                 fields[i].requestFocusInWindow();
@@ -94,7 +86,10 @@ public class Home extends JFrame {
         }
 
         try {
-            EmployeeRepository.getInstance().add(employee);
+            employeeManager.add(new Employee(
+                    values[0], values[1], values[2], values[3], values[4], values[5], values[6],
+                    values[7], values[8], values[9], values[10], values[11], values[12], values[13],
+                    values[14], values[15], values[16], values[17], values[18]));
             parent.refreshTable();
             dispose();
         } catch (IOException e) {

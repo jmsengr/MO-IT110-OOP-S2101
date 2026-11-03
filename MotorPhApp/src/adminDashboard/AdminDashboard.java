@@ -8,7 +8,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import CreateAccount.CreateAccount;
-import employeeData.EmployeeRepository;
+import GUI.Employee;
+import employeeData.EmployeeManager;
 
 import java.awt.Color;
 import javax.swing.JScrollPane;
@@ -26,6 +27,7 @@ import javax.swing.ImageIcon;
 
 public class AdminDashboard {
 
+	private final EmployeeManager employeeManager = new EmployeeManager();
 	private JFrame frmAdminDashboard;
 	private JTable table;
 	private JTextField txtSearch;
@@ -175,7 +177,7 @@ public class AdminDashboard {
 	            public void actionPerformed(ActionEvent e) {
 	                String empID = txtSearch.getText().trim();
 
-	                String[] employeeDetails = searchEmployeeID(empID);
+	                Employee employeeDetails = searchEmployeeID(empID);
 
 	                if (employeeDetails != null) {
 	                    searchResultsFrame resultsFrame = new searchResultsFrame(employeeDetails);
@@ -271,28 +273,36 @@ public class AdminDashboard {
 
 	     //Method to search for an employee by Employee ID.
 	     
-	    private String[] searchEmployeeID(String empID) {
-	    	try {
-	    		return EmployeeRepository.getInstance().findById(empID).orElse(null);
-	    	} catch (IOException e) {
-	    		JOptionPane.showMessageDialog(frmAdminDashboard, "Unable to search employee records:\n" + e.getMessage(),
-	    				"Application error", JOptionPane.ERROR_MESSAGE);
-	    		return null;
-	    	}
-	    }
+    private Employee searchEmployeeID(String empID) {
+        try {
+            return employeeManager.findById(empID).orElse(null);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frmAdminDashboard, "Unable to search employee records:\n" + e.getMessage(),
+                    "Application error", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
 	
 	private void loadCSVData() {
-	    DefaultTableModel model = (DefaultTableModel) table.getModel();
-	    model.setRowCount(0);
-	    try {
-	    	for (String[] employee : EmployeeRepository.getInstance().findAll()) {
-	    		model.addRow(employee);
-	    	}
-	    } catch (IOException e) {
-	        JOptionPane.showMessageDialog(frmAdminDashboard,
-	        		"Employee records could not be loaded:\n" + e.getMessage(),
-	        		"Application error", JOptionPane.ERROR_MESSAGE);
-	    }
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        try {
+            for (Employee employee : employeeManager.findAll()) {
+                model.addRow(new Object[] {
+                        employee.getEmployeeId(), employee.getLastName(), employee.getFirstName(),
+                        employee.getBirthday(), employee.getAddress(), employee.getPhoneNumber(),
+                        employee.getSssNumber(), employee.getPhilhealthNumber(), employee.getTin(),
+                        employee.getPagibigNumber(), employee.getStatus(), employee.getPosition(),
+                        employee.getSupervisor(), employee.getBasicSalary(), employee.getRiceSubsidy(),
+                        employee.getPhoneAllowance(), employee.getClothingAllowance(),
+                        employee.getGrossSemiMonthlyRate(), employee.getHourlyRate()
+                });
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(frmAdminDashboard,
+                    "Employee records could not be loaded:\n" + e.getMessage(),
+                    "Application error", JOptionPane.ERROR_MESSAGE);
+        }
 	}
 	
 	private void deleteDataCsv() throws IOException {
@@ -302,7 +312,7 @@ public class AdminDashboard {
 			return;
 		}
 		String employeeId = model.getValueAt(selectedRow, 0).toString();
-		if (!EmployeeRepository.getInstance().delete(employeeId)) {
+		if (!employeeManager.delete(employeeId)) {
 			throw new IOException("Employee ID " + employeeId + " was not found.");
 		}
 		loadCSVData();

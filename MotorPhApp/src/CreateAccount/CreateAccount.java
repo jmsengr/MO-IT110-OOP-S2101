@@ -17,13 +17,15 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-import employeeData.EmployeeRepository;
+import GUI.Employee;
+import employeeData.EmployeeManager;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class CreateAccount extends JDialog {
 
 	private static final long serialVersionUID = 1L;
+	private final EmployeeManager employeeManager = new EmployeeManager();
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtEmpNum;
 	private JLabel lblLastName;
@@ -323,7 +325,7 @@ public class CreateAccount extends JDialog {
 		            return; 
 		        }
 
-				 String[] newData = new String[]{
+				 Employee newEmployee = new Employee(
 			                txtEmpNum.getText().trim(),
 			                txtLastName.getText().trim(),
 			                txtFirstName.getText().trim(),
@@ -343,9 +345,9 @@ public class CreateAccount extends JDialog {
 			                txtClothingAllowance.getText().trim(),
 			                txtSemiMonthlyRate.getText().trim(),
 			                txtHourlyRate.getText().trim()
-			            };
+			            );
 				 try {
-					 EmployeeRepository.getInstance().add(newData);
+					 employeeManager.add(newEmployee);
 					 JOptionPane.showMessageDialog(CreateAccount.this, "New employee details added successfully.");
 					 dispose();
 				 } catch (IOException ex) {
@@ -399,16 +401,7 @@ public class CreateAccount extends JDialog {
     }
 	
     private int getNextEmpNum() throws IOException {
-    	return EmployeeRepository.getInstance().findAll().stream()
-    			.mapToInt(employee -> {
-    				try {
-    					return Integer.parseInt(employee[0].trim());
-    				} catch (NumberFormatException e) {
-    					return 0;
-    				}
-    			})
-    			.max()
-    			.orElse(0) + 1;
+        return employeeManager.getNextEmployeeId();
     }
 
 	

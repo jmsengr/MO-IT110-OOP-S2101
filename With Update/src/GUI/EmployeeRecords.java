@@ -1,6 +1,6 @@
 package GUI;
 
-import employeeData.EmployeeRepository;
+import employeeData.EmployeeManager;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -10,6 +10,7 @@ import java.io.IOException;
 public class EmployeeRecords extends JFrame {
 
     private static final long serialVersionUID = 1L;
+    private final EmployeeManager employeeManager = new EmployeeManager();
 
     private final DefaultTableModel tableModel = new DefaultTableModel(
             new String[] {"Employee #", "Last Name", "First Name", "Status", "Position", "Supervisor"}, 0) {
@@ -57,9 +58,10 @@ public class EmployeeRecords extends JFrame {
     public void refreshTable() {
         tableModel.setRowCount(0);
         try {
-            for (String[] employee : EmployeeRepository.getInstance().findAll()) {
+            for (Employee employee : employeeManager.findAll()) {
                 tableModel.addRow(new Object[] {
-                        employee[0], employee[1], employee[2], employee[10], employee[11], employee[12]
+                        employee.getEmployeeId(), employee.getLastName(), employee.getFirstName(),
+                        employee.getStatus(), employee.getPosition(), employee.getSupervisor()
                 });
             }
         } catch (IOException e) {
@@ -85,7 +87,7 @@ public class EmployeeRecords extends JFrame {
             return;
         }
         try {
-            if (!EmployeeRepository.getInstance().delete(employeeId)) {
+            if (!employeeManager.delete(employeeId)) {
                 throw new IOException("Employee ID " + employeeId + " was not found.");
             }
             refreshTable();

@@ -1,5 +1,6 @@
 package GUI;
 
+import employeeData.EmployeeManager;
 import employeeData.EmployeeRepository;
 
 import javax.swing.*;
@@ -20,6 +21,7 @@ public class EmployeeProfile extends JFrame {
 
     private final String employeeId;
     private final EmployeeRecords parent;
+    private final EmployeeManager employeeManager = new EmployeeManager();
     private final JTextField[] fields = new JTextField[EmployeeRepository.FIELD_COUNT];
     private final JButton editButton = new JButton("Edit");
     private final JButton saveButton = new JButton("Save");
@@ -59,11 +61,19 @@ public class EmployeeProfile extends JFrame {
 
     private void loadEmployeeProfile() {
         try {
-            Optional<String[]> employee = EmployeeRepository.getInstance().findById(employeeId);
+            Optional<Employee> employee = employeeManager.findById(employeeId);
             if (employee.isEmpty()) {
                 throw new IOException("Employee ID " + employeeId + " was not found.");
             }
-            String[] values = employee.get();
+            Employee record = employee.get();
+            String[] values = {
+                    record.getEmployeeId(), record.getLastName(), record.getFirstName(), record.getBirthday(),
+                    record.getAddress(), record.getPhoneNumber(), record.getSssNumber(),
+                    record.getPhilhealthNumber(), record.getTin(), record.getPagibigNumber(),
+                    record.getStatus(), record.getPosition(), record.getSupervisor(), record.getBasicSalary(),
+                    record.getRiceSubsidy(), record.getPhoneAllowance(), record.getClothingAllowance(),
+                    record.getGrossSemiMonthlyRate(), record.getHourlyRate()
+            };
             for (int i = 0; i < fields.length; i++) {
                 fields[i].setText(values[i]);
             }
@@ -83,17 +93,17 @@ public class EmployeeProfile extends JFrame {
     }
 
     private void saveProfile() {
-        String[] employee = new String[fields.length];
+        String[] values = new String[fields.length];
         for (int i = 0; i < fields.length; i++) {
-            employee[i] = fields[i].getText().trim();
-            if (employee[i].isEmpty()) {
+            values[i] = fields[i].getText().trim();
+            if (values[i].isEmpty()) {
                 JOptionPane.showMessageDialog(this, FIELD_LABELS[i] + " is required.",
                         "Invalid employee details", JOptionPane.WARNING_MESSAGE);
                 fields[i].requestFocusInWindow();
                 return;
             }
         }
-        if (!employee[3].matches("(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\d{4}")) {
+        if (!values[3].matches("(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\\d{4}")) {
             JOptionPane.showMessageDialog(this, "Birthday must use MM/DD/YYYY format.",
                     "Invalid employee details", JOptionPane.WARNING_MESSAGE);
             fields[3].requestFocusInWindow();
@@ -101,7 +111,10 @@ public class EmployeeProfile extends JFrame {
         }
 
         try {
-            EmployeeRepository.getInstance().update(employeeId, employee);
+            employeeManager.update(employeeId, new Employee(
+                    values[0], values[1], values[2], values[3], values[4], values[5], values[6],
+                    values[7], values[8], values[9], values[10], values[11], values[12], values[13],
+                    values[14], values[15], values[16], values[17], values[18]));
             if (parent != null) {
                 parent.refreshTable();
             }
